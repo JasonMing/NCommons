@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("Commons")]
-[assembly: AssemblyDescription("The common utilities for .NET")]
+[assembly: AssemblyTitle("NCommons.Xml")]
+[assembly: AssemblyDescription("The XML utilities for .NET")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Commons")]
+[assembly: AssemblyProduct("NCommons.Xml")]
 [assembly: AssemblyCopyright("Copyright ©  2014 MiNG")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("bc4f113e-4199-4606-8bf1-aa8ab92c775c")]
+[assembly: Guid("d6cbec87-f921-4fd1-bbc0-cf13912f6970")]
 
 // 程序集的版本信息由下面四个值组成: 
 //

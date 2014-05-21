@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Diagnostics;
 
-namespace Commons
+namespace NCommons
 {
 	/// <summary>
 	/// The utility to ensure the given key matches the specified rules.

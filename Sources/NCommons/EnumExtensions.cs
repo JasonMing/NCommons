@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using Commons.Properties;
+using NCommons.Properties;
 
-namespace Commons
+namespace NCommons
 {
 	public static class EnumExtensions
 	{

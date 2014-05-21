@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Commons
+namespace NCommons
 {
 	public static class XmlExtensions
 	{

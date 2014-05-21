@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Commons
+namespace NCommons
 {
 	[TestClass]
 	public class EnsureTests
