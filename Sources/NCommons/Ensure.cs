@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Diagnostics;
+using NCommons.Annotations;
 
 namespace NCommons
 {
@@ -16,7 +17,7 @@ namespace NCommons
 		/// <param name="name">The object's name.</param>
 		/// <exception cref="ArgumentNullException"><paramref name="source "/> is null.</exception>
 		[DebuggerStepThrough]
-		public static void NotNull(Object source, String name)
+		public static void NotNull(Object source, [InvokerParameterName] String name)
 		{
 			if (source == null)
 			{
@@ -32,7 +33,7 @@ namespace NCommons
 		/// <param name="message">The message of the throwing exception.</param>
 		/// <exception cref="ArgumentNullException"><paramref name="source "/> is null.</exception>
 		[DebuggerStepThrough]
-		public static void NotNull(Object source, String name, String message)
+		public static void NotNull(Object source, [InvokerParameterName] String name, String message)
 		{
 			if (source == null)
 			{
@@ -47,7 +48,7 @@ namespace NCommons
 		/// <param name="name">The object's name.</param>
 		/// <exception cref="ArgumentNullException"><paramref name="source "/> is null or zero-length.</exception>
 		[DebuggerStepThrough]
-		public static void NotEmpty(IEnumerable source, String name)
+		public static void NotEmpty(IEnumerable source, [InvokerParameterName] String name)
 		{
 			if (source == null || !source.GetEnumerator().MoveNext())
 			{
@@ -63,12 +64,13 @@ namespace NCommons
 		/// <param name="message">The message of the throwing exception.</param>
 		/// <exception cref="ArgumentNullException"><paramref name="source "/> is or zero-length.</exception>
 		[DebuggerStepThrough]
-		public static void NotEmpty(IEnumerable source, String name, String message)
+		public static void NotEmpty(IEnumerable source, [InvokerParameterName] String name, String message)
 		{
 			if (source == null || !source.GetEnumerator().MoveNext())
 			{
 				throw new ArgumentNullException(name, message);
 			}
 		}
+
 	}
 }
