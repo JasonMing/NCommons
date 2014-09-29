@@ -5,12 +5,20 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("NCommons")]
-[assembly: AssemblyDescription("The commons utilities for .NET")]
+#if NETFX4
+[assembly: AssemblyTitle("NCommons.NET")]
+[assembly: AssemblyDescription("The commons utilities for .NET 4")]
+[assembly: AssemblyProduct("NCommons.NET")]
+#elif WINRT81
+[assembly: AssemblyTitle("NCommons.WinRT")]
+[assembly: AssemblyDescription("The commons utilities for WinRT 8.1")]
+[assembly: AssemblyProduct("NCommons.WinRT")]
+#else
+#error Not supported or undefined platform.
+#endif
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NCommons")]
-[assembly: AssemblyCopyright("Copyright ©  2014 MiNG")]
+[assembly: AssemblyCopyright("Copyright ©  MiNG 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +40,18 @@ using System.Runtime.InteropServices;
 // 可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”: 
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+#if NETFX4
+[assembly: AssemblyVersion("1.0.0.4")]
+[assembly: AssemblyFileVersion("1.0.0.4")]
+#elif WINRT81
+[assembly: AssemblyVersion("1.0.0.81")]
+[assembly: AssemblyFileVersion("1.0.0.81")]
+#else
+#error Not supported or undefined platform.
+#endif
+
+#if NETFX4
+[assembly: InternalsVisibleTo("NCommons.Tests")]
+#elif WINRT81
+//TODO: [assembly: InternalsVisibleTo("NCommons.Tests")]
+#endif

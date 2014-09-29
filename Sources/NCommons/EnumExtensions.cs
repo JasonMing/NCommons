@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using NCommons.Annotations;
-using NCommons.Properties;
 
 namespace NCommons
 {
@@ -29,10 +28,14 @@ namespace NCommons
 		public static Boolean IsDefinedFor<TEnum>([CanBeNull] this Object source)
 			where TEnum : struct
 		{
+#if NETFX4
 			if (!typeof(TEnum).IsEnum)
 			{
-				throw new ArgumentException(Resources.TypeMustBeEnum);
+				throw new ArgumentException(Properties.Resources.TypeMustBeEnum);
 			}
+#else
+			// Ignores the type checking, passing to the Enum.IsDefined(Type, Object);
+#endif
 			return IsDefinedFor(source, typeof(TEnum));
 		}
 
@@ -46,7 +49,11 @@ namespace NCommons
 		[DebuggerStepThrough]
 		public static Boolean IsDefinedFor([CanBeNull] this Object source, [NotNull] Type enumType)
 		{
+#if NETFX4
 			enumType.CheckEnumType();
+#else
+			// Ignores the type checking, passing to the Enum.IsDefined(Type, Object);
+#endif
 
 			return source != null && Enum.IsDefined(enumType, source);
 		}
@@ -64,20 +71,26 @@ namespace NCommons
 				return null;
 			}
 
+#if NETFX4
 			var underlyingObject = Convert.ChangeType(source, source.GetTypeCode());
+#else
+			var underlyingObject = Convert.ChangeType(source, source.GetType());
+#endif
 
 			return underlyingObject;
 		}
 
+#if NETFX4
 		private static void CheckEnumType(this Type enumType)
 		{
 			Ensure.NotNull(enumType, "enumType");
 
 			if (!enumType.IsEnum)
 			{
-				throw new ArgumentException(Resources.TypeMustBeEnum, "enumType");
+				throw new ArgumentException(Properties.Resources.TypeMustBeEnum, "enumType");
 			}
 		}
+#endif
 
 	}
 }

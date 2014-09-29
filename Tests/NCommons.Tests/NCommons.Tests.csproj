@@ -58,9 +58,9 @@
     <Compile Include="StringExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Sources\NCommons\NCommons.csproj">
+    <ProjectReference Include="..\..\Sources\NCommons\NCommons.NET.csproj">
       <Project>{ff21a89f-24d7-489c-84c4-12e8fdb27e04}</Project>
-      <Name>NCommons</Name>
+      <Name>NCommons.NET</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
