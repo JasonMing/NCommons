@@ -67,5 +67,6 @@ namespace NCommons
 		{
 			return !String.IsNullOrWhiteSpace(source);
 		}
+
 	}
 }

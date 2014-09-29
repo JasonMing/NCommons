@@ -2,33 +2,34 @@
 using System.Collections;
 using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
+using NCommons.Annotations;
 
 namespace NCommons
 {
 	public static class ObjectExtensions
 	{
 		[DebuggerStepThrough]
-		public static TResult ValueOrDefault<TSource, TResult>(this TSource source, Func<TSource, TResult> valuer)
+		public static TResult ValueOrDefault<TSource, TResult>([CanBeNull] this TSource source, Func<TSource, TResult> valuer)
 			where TSource : class
 		{
 			return (source == null) ? default(TResult) : valuer(source);
 		}
 
 		[DebuggerStepThrough]
-		public static TResult ValueOrDefault<TSource, TResult>(this TSource source, Func<TSource, TResult> valuer, TResult defaultValue)
+		public static TResult ValueOrDefault<TSource, TResult>([CanBeNull] this TSource source, Func<TSource, TResult> valuer, TResult defaultValue)
 			where TSource : class
 		{
 			return (source == null) ? defaultValue : valuer(source);
 		}
 
 		[DebuggerStepThrough]
-		public static TResult ValueOrDefault<TSource, TResult>(this TSource source, Func<TSource, TResult> valuer, Func<TResult> defaultValuer)
+		public static TResult ValueOrDefault<TSource, TResult>([CanBeNull] this TSource source, Func<TSource, TResult> valuer, Func<TResult> defaultValuer)
 			where TSource : class
 		{
 			return (source == null) ? defaultValuer() : valuer(source);
 		}
+
+		#region Helpers of overriding Object's method
 
 		public static Int32 CalcHash(params Object[] objs)
 		{
@@ -37,15 +38,15 @@ namespace NCommons
 
 		public static Int32 CalcHash(IEnumerable objs)
 		{
-			const Int32 Init = 17;
-			const Int32 Step = 23;
+			const Int32 init = 17;
+			const Int32 step = 23;
 
 			unchecked // Overflow is fine, just wrap
 			{
 				return objs
 					.Cast<Object>()
 					.Where(obj => obj != null)
-					.Aggregate(Init, (current, obj) => current * Step + obj.GetHashCode());
+					.Aggregate(init, (current, obj) => current * step + obj.GetHashCode());
 			}
 		}
 
@@ -72,6 +73,8 @@ namespace NCommons
 
 			return source.EqualsWith(otherAsT, selectors);
 		}
+
+		#endregion
 
 	}
 }

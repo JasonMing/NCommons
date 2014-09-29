@@ -238,6 +238,150 @@ namespace NCommons
 			}
 		}
 
+		#region Extensions for IDictionary<TKey, TValue>
+
+		/// <summary>
+		/// Try getting the value in the specific type <typeparamref name="TOutValue"/> from the <paramref name="source"/>.
+		/// </summary>
+		/// <typeparam name="TKey">The key type of the <paramref name="source"/> dictionary.</typeparam>
+		/// <typeparam name="TSourceValue">The value type of the <paramref name="source"/> dictionary.</typeparam>
+		/// <typeparam name="TOutValue">The type of value you want cast to.</typeparam>
+		/// <param name="source">The source dictionary.</param>
+		/// <param name="key">The key to find in the <paramref name="source"/>.</param>
+		/// <param name="value">The result value, if returns <c>true</c> this value is valid, else the <c>default(<typeparamref name="TOutValue"/>)</c> will be set.</param>
+		/// <param name="cast">Indicates should cast when the source value is not instance of <typeparamref name="TOutValue"/> (overrided cast operator).</param>
+		/// <param name="convert">Indicates should use the <see cref="Convert.ChangeType(object,System.Type)"/> to convert the value.</param>
+		/// <returns><c>true</c> indicates the <paramref name="value"/> is valid, otherwise <c>false</c>.</returns>
+		public static Boolean TryGetValue<TKey, TSourceValue, TOutValue>(this IDictionary<TKey, TSourceValue> source, TKey key, out TOutValue value, Boolean cast = false, Boolean convert = false)
+		{	// ReSharper disable EmptyGeneralCatchClause
+			TSourceValue sourceValue;
+			if (source.TryGetValue(key, out sourceValue))
+			{
+				if (sourceValue is TOutValue || cast)
+				{
+					try
+					{
+						value = (TOutValue)(Object)sourceValue;
+						return true;
+					} catch (InvalidCastException)
+					{
+						// If objectValue is TOutValue this exception will be never raised.
+						// So, this catch block is only for the overrided implicit(explicit) cast.
+						// This catch block should just ignore the exception, then fall down to output default value and reutrn false.
+					}
+				} else if (convert)
+				{
+					try
+					{
+						value = (TOutValue)Convert.ChangeType(sourceValue, typeof(Object));
+						return true;
+					} catch (Exception) { }
+				}
+			}
+			value = default(TOutValue);
+			return false;
+		}	// ReSharper enable EmptyGeneralCatchClause
+
+		/// <summary>
+		/// Create a new <see cref="IDictionary{TKey,TValue}"/> and copy all entries in <paramref name="source"/>.
+		/// </summary>
+		public static IDictionary<TKey, TValue> ToSafeDictionary<TKey, TValue>(this IDictionary<TKey, TValue> source)
+		{
+			return new SafeDictionary<TKey, TValue>(source);
+		}
+
+		/// <summary>
+		/// Create a new <see cref="IDictionary{TKey,TValue}"/> and copy all entries in <paramref name="source"/> with <paramref name="comparer"/>.
+		/// </summary>
+		public static IDictionary<TKey, TValue> ToSafeDictionary<TKey, TValue>(this IDictionary<TKey, TValue> source, IEqualityComparer<TKey> comparer)
+		{
+			return new SafeDictionary<TKey, TValue>(source, comparer);
+		}
+
+		/// <summary>
+		/// Create a new <see cref="IDictionary{TKey,TValue}"/>, by using <paramref name="keySelector"/> to select keys and entries of <paramref name="source"/> as values.
+		/// </summary>
+		public static IDictionary<TKey, TSource> ToSafeDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+		{
+			Ensure.NotNull(keySelector, "keySelector");
+
+			var asCollection = source as ICollection;
+			var dict = asCollection != null
+				? new SafeDictionary<TKey, TSource>(asCollection.Count)
+				: new SafeDictionary<TKey, TSource>();
+
+			foreach (var element in source)
+			{
+				dict.Add(keySelector(element), element);
+			}
+
+			return dict;
+		}
+
+		/// <summary>
+		/// Create a new <see cref="IDictionary{TKey,TValue}"/>, by using <paramref name="keySelector"/> to select keys, with <paramref name="comparer"/>.
+		/// </summary>
+		public static IDictionary<TKey, TSource> ToSafeDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
+		{
+			Ensure.NotNull(keySelector, "keySelector");
+
+			var asCollection = source as ICollection;
+			var dict = asCollection != null
+				? new SafeDictionary<TKey, TSource>(asCollection.Count, comparer)
+				: new SafeDictionary<TKey, TSource>(comparer);
+
+			foreach (var element in source)
+			{
+				dict.Add(keySelector(element), element);
+			}
+
+			return dict;
+		}
+
+		/// <summary>
+		/// Create a new <see cref="IDictionary{TKey,TValue}"/>, by using <paramref name="keySelector"/> to select keys and <paramref name="elementSeletor"/> to select values.
+		/// </summary>
+		public static IDictionary<TKey, TElement> ToSafeDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSeletor)
+		{
+			Ensure.NotNull(keySelector, "keySelector");
+			Ensure.NotNull(elementSeletor, "elementSeletor");
+
+			var asCollection = source as ICollection;
+			var dict = asCollection != null
+				? new SafeDictionary<TKey, TElement>(asCollection.Count)
+				: new SafeDictionary<TKey, TElement>();
+
+			foreach (var element in source)
+			{
+				dict.Add(keySelector(element), elementSeletor(element));
+			}
+
+			return dict;
+		}
+
+		/// <summary>
+		/// Create a new <see cref="IDictionary{TKey,TValue}"/>, by using <paramref name="keySelector"/> to select keys and <paramref name="elementSeletor"/> to select values, with <paramref name="comparer"/>.
+		/// </summary>
+		public static IDictionary<TKey, TElement> ToSafeDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSeletor, IEqualityComparer<TKey> comparer)
+		{
+			Ensure.NotNull(keySelector, "keySelector");
+			Ensure.NotNull(elementSeletor, "elementSeletor");
+
+			var asCollection = source as ICollection;
+			var dict = asCollection != null
+				? new SafeDictionary<TKey, TElement>(asCollection.Count, comparer)
+				: new SafeDictionary<TKey, TElement>(comparer);
+
+			foreach (var element in source)
+			{
+				dict.Add(keySelector(element), elementSeletor(element));
+			}
+
+			return dict;
+		}
+
+		#endregion
+
 		private static IEqualityComparer<TSource> ToEqualityComparer<TSource, TKey>(Func<TSource, TKey> keySelector)
 		{
 			return new KeyEqualityComparer<TSource, TKey>(keySelector);
