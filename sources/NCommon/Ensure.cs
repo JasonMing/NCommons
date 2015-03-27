@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Diagnostics;
-using NCommons.Annotations;
+using System.Runtime.CompilerServices;
+using NCommon.Annotations;
 
-namespace NCommons
+namespace NCommon
 {
 	/// <summary>
 	/// The utility to ensure the given key matches the specified rules.
@@ -17,7 +18,8 @@ namespace NCommons
 		/// <param name="name">The object's name.</param>
 		/// <exception cref="ArgumentNullException"><paramref name="source "/> is null.</exception>
 		[DebuggerStepThrough]
-		public static void NotNull(Object source, [InvokerParameterName] String name)
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static void ArgumentNotNull(Object source, [InvokerParameterName] String name)
 		{
 			if (source == null)
 			{
@@ -33,7 +35,8 @@ namespace NCommons
 		/// <param name="message">The message of the throwing exception.</param>
 		/// <exception cref="ArgumentNullException"><paramref name="source "/> is null.</exception>
 		[DebuggerStepThrough]
-		public static void NotNull(Object source, [InvokerParameterName] String name, String message)
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static void ArgumentNotNull(Object source, [InvokerParameterName] String name, String message)
 		{
 			if (source == null)
 			{
@@ -46,13 +49,14 @@ namespace NCommons
 		/// </summary>
 		/// <param name="source">The <see cref="IEnumerable"/> to be ensured.</param>
 		/// <param name="name">The object's name.</param>
-		/// <exception cref="ArgumentNullException"><paramref name="source "/> is null or zero-length.</exception>
+		/// <exception cref="ArgumentException"><paramref name="source "/> is null or zero-length.</exception>
 		[DebuggerStepThrough]
-		public static void NotEmpty(IEnumerable source, [InvokerParameterName] String name)
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static void ArgumentNotEmpty(IEnumerable source, [InvokerParameterName] String name)
 		{
-			if (source == null || !source.GetEnumerator().MoveNext())
+			if (source.IsEmpty())
 			{
-				throw new ArgumentNullException(name);
+				throw new ArgumentException("Argument should not be emtpy.", name);
 			}
 		}
 
@@ -62,13 +66,14 @@ namespace NCommons
 		/// <param name="source">The <see cref="IEnumerable"/> to be ensured.</param>
 		/// <param name="name">The object's name.</param>
 		/// <param name="message">The message of the throwing exception.</param>
-		/// <exception cref="ArgumentNullException"><paramref name="source "/> is or zero-length.</exception>
+		/// <exception cref="ArgumentException"><paramref name="source "/> is null or zero-length.</exception>
 		[DebuggerStepThrough]
-		public static void NotEmpty(IEnumerable source, [InvokerParameterName] String name, String message)
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static void ArgumentNotEmpty(IEnumerable source, [InvokerParameterName] String name, String message)
 		{
-			if (source == null || !source.GetEnumerator().MoveNext())
+			if (source.IsEmpty())
 			{
-				throw new ArgumentNullException(name, message);
+				throw new ArgumentException(message, name);
 			}
 		}
 

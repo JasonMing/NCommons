@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-#if NETFX4
-[assembly: AssemblyTitle("NCommons.NET")]
-[assembly: AssemblyDescription("The commons utilities for .NET 4")]
-[assembly: AssemblyProduct("NCommons.NET")]
+#if NETFX45
+[assembly: AssemblyTitle("NCommon.NET")]
+[assembly: AssemblyDescription("The common utilities for .NET 4.5")]
+[assembly: AssemblyProduct("NCommon.NET")]
 #elif WINRT81
 [assembly: AssemblyTitle("NCommons.WinRT")]
 [assembly: AssemblyDescription("The commons utilities for WinRT 8.1")]
@@ -18,7 +18,7 @@ using System.Runtime.InteropServices;
 #endif
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyCopyright("Copyright ©  MiNG 2014")]
+[assembly: AssemblyCopyright("Copyright © MiNG 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -40,7 +40,7 @@ using System.Runtime.InteropServices;
 // 可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”: 
 // [assembly: AssemblyVersion("1.0.*")]
-#if NETFX4
+#if NETFX45
 [assembly: AssemblyVersion("1.0.0.4")]
 [assembly: AssemblyFileVersion("1.0.0.4")]
 #elif WINRT81
@@ -50,7 +50,7 @@ using System.Runtime.InteropServices;
 #error Not supported or undefined platform.
 #endif
 
-#if NETFX4
+#if NETFX45
 [assembly: InternalsVisibleTo("NCommons.Tests")]
 #elif WINRT81
 //TODO: [assembly: InternalsVisibleTo("NCommons.Tests")]

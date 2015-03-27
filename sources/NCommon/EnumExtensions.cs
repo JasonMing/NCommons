@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
-using NCommons.Annotations;
+using NCommon.Annotations;
 
-namespace NCommons
+namespace NCommon
 {
+	/// <summary>
+	/// The extensions for enums.
+	/// Should NOT use this class directly.
+	/// </summary>
 	public static class EnumExtensions
 	{
 		/// <summary>
@@ -12,7 +16,7 @@ namespace NCommons
 		/// <param name="source">The enum object. <c>null</c> will always be assumed undefined.</param>
 		/// <returns>If <paramref name="source"/> is a defined value returns <c>true</c>, otherwise <c>false</c>.</returns>
 		[DebuggerStepThrough]
-		public static Boolean IsDefined([CanBeNull] this Enum source)
+		public static Boolean IsDefined(this Enum source)
 		{
 			return source != null && Enum.IsDefined(source.GetType(), source);
 		}
@@ -25,18 +29,15 @@ namespace NCommons
 		/// <param name="source">The enum object. <c>null</c> will always be assumed undefined.</param>
 		/// <returns>If <paramref name="source"/> is a defined value returns <c>true</c>, otherwise <c>false</c>.</returns>
 		[DebuggerStepThrough]
-		public static Boolean IsDefinedFor<TEnum>([CanBeNull] this Object source)
+		public static Boolean IsEnumOf<TEnum>(this Object source)
 			where TEnum : struct
 		{
-#if NETFX4
 			if (!typeof(TEnum).IsEnum)
 			{
 				throw new ArgumentException(Properties.Resources.TypeMustBeEnum);
 			}
-#else
-			// Ignores the type checking, passing to the Enum.IsDefined(Type, Object);
-#endif
-			return IsDefinedFor(source, typeof(TEnum));
+
+			return IsEnumOf(source, typeof(TEnum));
 		}
 
 		/// <summary>
@@ -47,15 +48,26 @@ namespace NCommons
 		/// <param name="enumType">The enum type.</param>
 		/// <returns>If <paramref name="source"/> is a defined value returns <c>true</c>, otherwise <c>false</c>.</returns>
 		[DebuggerStepThrough]
-		public static Boolean IsDefinedFor([CanBeNull] this Object source, [NotNull] Type enumType)
+		public static Boolean IsEnumOf(this Object source, [NotNull] Type enumType)
 		{
-#if NETFX4
-			enumType.CheckEnumType();
-#else
-			// Ignores the type checking, passing to the Enum.IsDefined(Type, Object);
-#endif
+			Ensure.ArgumentNotNull(enumType, "enumType");
 
-			return source != null && Enum.IsDefined(enumType, source);
+			if (!enumType.IsEnum)
+			{
+				throw new ArgumentException(Properties.Resources.TypeMustBeEnum, "enumType");
+			}
+
+			if (source == null)
+			{
+				return false;
+			}
+
+			if (!source.GetType().IsEnum || source.GetType() == enumType)
+			{
+				return Enum.IsDefined(enumType, source);
+			}
+
+			return false;
 		}
 
 		/// <summary>
@@ -64,33 +76,16 @@ namespace NCommons
 		/// <param name="source">The enum object, passing <c>null</c> is permitted.</param>
 		/// <returns>The boxed instance of the enum underlying type, <c>null</c> is returned is <paramref name="source"/> is.</returns>
 		[DebuggerStepThrough]
-		public static Object ToUndelyingType([CanBeNull] this Enum source)
+		public static Object ToUndelyingType(this Enum source)
 		{
 			if (source == null)
 			{
 				return null;
 			}
 
-#if NETFX4
 			var underlyingObject = Convert.ChangeType(source, source.GetTypeCode());
-#else
-			var underlyingObject = Convert.ChangeType(source, source.GetType());
-#endif
 
 			return underlyingObject;
 		}
-
-#if NETFX4
-		private static void CheckEnumType(this Type enumType)
-		{
-			Ensure.NotNull(enumType, "enumType");
-
-			if (!enumType.IsEnum)
-			{
-				throw new ArgumentException(Properties.Resources.TypeMustBeEnum, "enumType");
-			}
-		}
-#endif
-
 	}
 }

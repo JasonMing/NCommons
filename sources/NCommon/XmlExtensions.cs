@@ -2,8 +2,12 @@
 using System.Linq;
 using System.Xml.Linq;
 
-namespace NCommons
+namespace NCommon
 {
+	/// <summary>
+	/// The extensions for <see cref="System.Xml"/> and <see cref="System.Xml.Linq"/>.
+	/// Should NOT use this class directly.
+	/// </summary>
 	public static class XmlExtensions
 	{
 		private static readonly String[] TrueStrings = { "True", "Yes", "Y", "T", "1" };
@@ -28,20 +32,33 @@ namespace NCommons
 
 		private static Boolean ParseBoolean(String value)
 		{
-			return TrueStrings.Any(s => String.Equals(s, value, StringComparison.OrdinalIgnoreCase));
+			return TrueStrings.Contains(value, StringComparer.OrdinalIgnoreCase);
 		}
 
+		/// <summary>
+		/// Get the value of this element and convert it to <typeparamref name="T"/>.
+		/// </summary>
+		/// <typeparam name="T">The type will be convert to.</typeparam>
+		/// <returns>The converted value.</returns>
 		public static T Value<T>(this XElement xElement)
 		{
 			return xElement == null ? NullOrError<T>() : ConvertTo<T>(xElement.Value);
 		}
 
+		/// <summary>
+		/// Get child value of <paramref name="xElement"/> and convert it to <typeparamref name="T"/>.
+		/// This method will search the children in the child elements and it's owned attributes.
+		/// The search order is element than attribute.
+		/// </summary>
+		/// <typeparam name="T">The type will be convert to.</typeparam>
+		/// <returns>The converted value.</returns>
 		public static T Value<T>(this XElement xElement, XName name)
 		{
 			if (xElement == null)
 			{
 				return NullOrError<T>();
 			}
+
 			String value;
 			var childElemnt = xElement.Element(name);
 			if (childElemnt == null)
@@ -49,7 +66,7 @@ namespace NCommons
 				var attribute = xElement.Attribute(name);
 				if (attribute == null)
 				{
-					return NullOrError<T>();
+					return XmlExtensions.NullOrError<T>();
 				}
 				value = attribute.Value;
 			} else

@@ -2,42 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace NCommons
+namespace NCommon
 {
+	[Serializable]
 	class SafeDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 	{
 		private readonly IDictionary<TKey, TValue> inner;
 
-		public SafeDictionary()
-		{
-			this.inner = new Dictionary<TKey, TValue>();
-		}
-
-		public SafeDictionary(Int32 capacity)
-		{
-			this.inner = new Dictionary<TKey, TValue>(capacity);
-		}
-
-		public SafeDictionary(IEqualityComparer<TKey> comparer)
-		{
-			this.inner = new Dictionary<TKey, TValue>(comparer);
-		}
-
-		public SafeDictionary(int capacity, IEqualityComparer<TKey> comparer)
-		{
-			this.inner = new Dictionary<TKey, TValue>(capacity, comparer);
-		}
-
+		/// <summary>
+		/// Create a <see cref="SafeDictionary{TKey,TValue}"/> that uses <paramref name="dictionary"/> as the inner data.
+		/// </summary>
+		/// <param name="dictionary">The referenced source dictionary.</param>
 		public SafeDictionary(IDictionary<TKey, TValue> dictionary)
 		{
-			this.inner = new Dictionary<TKey, TValue>(dictionary);
+			this.inner = dictionary;
 		}
-
-		public SafeDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer)
-		{
-			this.inner = new Dictionary<TKey, TValue>(dictionary, comparer);
-		}
-
 
 		public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
 		{

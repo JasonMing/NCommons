@@ -8,8 +8,10 @@
 // ReSharper disable IntroduceOptionalParameters.Global
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable InconsistentNaming
+// ReSharper disable CheckNamespace
+// ReSharper disable RedundantAttributeUsageProperty
 
-namespace NCommons.Annotations
+namespace NCommon.Annotations
 {
   /// <summary>
   /// Indicates that the value of the marked element could be <c>null</c> sometimes,
@@ -64,7 +66,7 @@ namespace NCommons.Annotations
     /// </param>
     public StringFormatMethodAttribute(string formatParameterName)
     {
-      FormatParameterName = formatParameterName;
+      this.FormatParameterName = formatParameterName;
     }
 
     public string FormatParameterName { get; private set; }
@@ -126,7 +128,7 @@ namespace NCommons.Annotations
     public NotifyPropertyChangedInvocatorAttribute() { }
     public NotifyPropertyChangedInvocatorAttribute(string parameterName)
     {
-      ParameterName = parameterName;
+      this.ParameterName = parameterName;
     }
 
     public string ParameterName { get; private set; }
@@ -182,8 +184,8 @@ namespace NCommons.Annotations
 
     public ContractAnnotationAttribute([NotNull] string contract, bool forceFullStates)
     {
-      Contract = contract;
-      ForceFullStates = forceFullStates;
+      this.Contract = contract;
+      this.ForceFullStates = forceFullStates;
     }
 
     public string Contract { get; private set; }
@@ -205,7 +207,7 @@ namespace NCommons.Annotations
     public LocalizationRequiredAttribute() : this(true) { }
     public LocalizationRequiredAttribute(bool required)
     {
-      Required = required;
+      this.Required = required;
     }
 
     public bool Required { get; private set; }
@@ -251,7 +253,7 @@ namespace NCommons.Annotations
   {
     public BaseTypeRequiredAttribute([NotNull] Type baseType)
     {
-      BaseType = baseType;
+      this.BaseType = baseType;
     }
 
     [NotNull] public Type BaseType { get; private set; }
@@ -277,8 +279,8 @@ namespace NCommons.Annotations
     public UsedImplicitlyAttribute(
       ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)
     {
-      UseKindFlags = useKindFlags;
-      TargetFlags = targetFlags;
+      this.UseKindFlags = useKindFlags;
+      this.TargetFlags = targetFlags;
     }
 
     public ImplicitUseKindFlags UseKindFlags { get; private set; }
@@ -305,8 +307,8 @@ namespace NCommons.Annotations
     public MeansImplicitUseAttribute(
       ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)
     {
-      UseKindFlags = useKindFlags;
-      TargetFlags = targetFlags;
+      this.UseKindFlags = useKindFlags;
+      this.TargetFlags = targetFlags;
     }
 
     [UsedImplicitly] public ImplicitUseKindFlags UseKindFlags { get; private set; }
@@ -316,7 +318,7 @@ namespace NCommons.Annotations
   [Flags]
   public enum ImplicitUseKindFlags
   {
-    Default = Access | Assign | InstantiatedWithFixedConstructorSignature,
+    Default = ImplicitUseKindFlags.Access | ImplicitUseKindFlags.Assign | ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature,
     /// <summary>Only entity marked with attribute considered used</summary>
     Access = 1,
     /// <summary>Indicates implicit assignment to a member</summary>
@@ -338,12 +340,12 @@ namespace NCommons.Annotations
   [Flags]
   public enum ImplicitUseTargetFlags
   {
-    Default = Itself,
+    Default = ImplicitUseTargetFlags.Itself,
     Itself = 1,
     /// <summary>Members of entity marked with attribute are considered used</summary>
     Members = 2,
     /// <summary>Entity marked with attribute and all its members considered used</summary>
-    WithMembers = Itself | Members
+    WithMembers = ImplicitUseTargetFlags.Itself | ImplicitUseTargetFlags.Members
   }
 
   /// <summary>
@@ -356,7 +358,7 @@ namespace NCommons.Annotations
     public PublicAPIAttribute() { }
     public PublicAPIAttribute([NotNull] string comment)
     {
-      Comment = comment;
+      this.Comment = comment;
     }
 
     [NotNull] public string Comment { get; private set; }
@@ -397,7 +399,7 @@ namespace NCommons.Annotations
     public PathReferenceAttribute() { }
     public PathReferenceAttribute([PathReference] string basePath)
     {
-      BasePath = basePath;
+      this.BasePath = basePath;
     }
 
     [NotNull] public string BasePath { get; private set; }
@@ -453,7 +455,7 @@ namespace NCommons.Annotations
     public AspMvcActionAttribute() { }
     public AspMvcActionAttribute([NotNull] string anonymousProperty)
     {
-      AnonymousProperty = anonymousProperty;
+      this.AnonymousProperty = anonymousProperty;
     }
 
     [NotNull] public string AnonymousProperty { get; private set; }
@@ -470,7 +472,7 @@ namespace NCommons.Annotations
     public AspMvcAreaAttribute() { }
     public AspMvcAreaAttribute([NotNull] string anonymousProperty)
     {
-      AnonymousProperty = anonymousProperty;
+      this.AnonymousProperty = anonymousProperty;
     }
 
     [NotNull] public string AnonymousProperty { get; private set; }
@@ -489,7 +491,7 @@ namespace NCommons.Annotations
     public AspMvcControllerAttribute() { }
     public AspMvcControllerAttribute([NotNull] string anonymousProperty)
     {
-      AnonymousProperty = anonymousProperty;
+      this.AnonymousProperty = anonymousProperty;
     }
 
     [NotNull] public string AnonymousProperty { get; private set; }
@@ -583,7 +585,7 @@ namespace NCommons.Annotations
     public HtmlElementAttributesAttribute() { }
     public HtmlElementAttributesAttribute([NotNull] string name)
     {
-      Name = name;
+      this.Name = name;
     }
 
     [NotNull] public string Name { get; private set; }
@@ -596,7 +598,7 @@ namespace NCommons.Annotations
   {
     public HtmlAttributeValueAttribute([NotNull] string name)
     {
-      Name = name;
+      this.Name = name;
     }
 
     [NotNull] public string Name { get; private set; }

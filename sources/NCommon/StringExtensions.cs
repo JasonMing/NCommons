@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace NCommons
+namespace NCommon
 {
+	/// <summary>
+	/// The extensions for any <see cref="String"/>.
+	/// Should NOT use this class directly.
+	/// </summary>
 	public static class StringExtensions
 	{
 		/// <summary>
@@ -11,9 +15,11 @@ namespace NCommons
 		/// <param name="source">The <see cref="String"/> to be determined.</param>
 		/// <param name="pattern">The regular-expression.</param>
 		/// <returns><c>true</c> means match, <c>false</c> otherwise.</returns>
-		public static Boolean IsMatch(this String source, String pattern)
+		public static Boolean RegexMatch(this String source, String pattern)
 		{
-			return Regex.IsMatch(source, pattern);
+			Ensure.ArgumentNotNull(pattern, "pattern");
+
+			return source != null && Regex.IsMatch(source, pattern);
 		}
 
 		/// <summary>
@@ -25,7 +31,9 @@ namespace NCommons
 		/// <returns>The replaced string.</returns>
 		public static String RegexReplace(this String source, String pattern, String replacement)
 		{
-			return Regex.Replace(source, pattern, replacement);
+			Ensure.ArgumentNotNull(pattern, "pattern");
+
+			return source == null ? null : Regex.Replace(source, pattern, replacement);
 		}
 
 		/// <summary>

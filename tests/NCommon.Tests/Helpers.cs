@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NCommons
+namespace NCommon
 {
 	static class Helpers
 	{
