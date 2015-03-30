@@ -61,16 +61,18 @@ namespace NCommon
 		}
 
 		/// <summary>
-		/// Try cast the <paramref name="source"/> to the specific type <typeparamref name="T"/>.
+		/// Try cast the <paramref name="source"/> to the specific type <typeparamref name="T"/> without exceptions.
+		/// Beware, the compile-time casting operator cannot be used in the runtime casting.
 		/// NOTE: Be care using with the value-types, the boxing mechanism may causes the performance issue.
 		/// </summary>
 		public static Boolean TryCast<T>(this Object source, out T value)
 		{
-			try
+			// ReSharper disable once CanBeReplacedWithTryCastAndCheckForNull
+			if (source is T)
 			{
 				value = (T)source;
 				return true;
-			} catch (InvalidCastException)
+			} else
 			{
 				value = default(T);
 				return false;
@@ -83,15 +85,8 @@ namespace NCommon
 		/// </summary>
 		public static Boolean TryConvert<T>(this Object source, out T value)
 		{
-			try
-			{
-				value = (T)Convert.ChangeType(source, typeof(T));
-				return true;
-			} catch (Exception)
-			{
-				value = default(T);
-				return false;
-			}
+			Exception _;
+			return TryConvert(source, out value, out _);
 		}
 
 		/// <summary>
@@ -100,9 +95,10 @@ namespace NCommon
 		/// </summary>
 		public static Boolean TryConvert<T>(this Object source, out T value, out Exception exception)
 		{
+			var type = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);  // Unwrap the type if it is nullable.
 			try
 			{
-				value = (T)Convert.ChangeType(source, typeof(T));
+				value = (T)Convert.ChangeType(source, type);
 				exception = null;
 				return true;
 			} catch (Exception e)
@@ -112,53 +108,5 @@ namespace NCommon
 				return false;
 			}
 		}
-
-		#region Helpers of overriding Object's method
-
-		public static Int32 CalcHash(params Object[] objs)
-		{
-			return ObjectExtensions.CalcHash(objs as IEnumerable);
-		}
-
-		public static Int32 CalcHash(IEnumerable objs)
-		{
-			const Int32 init = 17;
-			const Int32 step = 23;
-
-			unchecked // Overflow is fine, just wrap
-			{
-				return objs
-					.Cast<Object>()
-					.Where(obj => obj != null)
-					.Aggregate(init, (current, obj) => current * step + obj.GetHashCode());
-			}
-		}
-
-		public static Boolean EqualsWith<T>(this T source, T other, params Func<T, Object>[] selectors)
-		{
-			return ReferenceEquals(source, other) || selectors.All(s => s(source) == s(other));
-		}
-
-		public static Boolean EqualsWith<T>(this T source, Object other, params Func<T, Object>[] selectors)
-		{
-			if (ReferenceEquals(source, other))
-			{
-				return true;
-			}
-
-			T otherAsT;
-			if (other is T)
-			{
-				otherAsT = (T)other;
-			} else
-			{
-				return false;
-			}
-
-			return source.EqualsWith(otherAsT, selectors);
-		}
-
-		#endregion
-
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NCommon.Annotations;
 using Xunit;
 
 namespace NCommon
@@ -16,7 +17,9 @@ namespace NCommon
 		public void IsEmpty(IEnumerable source, Boolean expect)
 		{
 			Assert.Equal(expect, source.IsEmpty());
+			Assert.Equal(expect, ((IEnumerable<Object>)source).IsEmpty());
 			Assert.NotEqual(expect, source.IsNotEmpty());
+			Assert.NotEqual(expect, ((IEnumerable<Object>)source).IsNotEmpty());
 		}
 
 		[Fact]
@@ -96,5 +99,42 @@ namespace NCommon
 			Assert.Null(source2.Distinct(i => i, StringComparer.OrdinalIgnoreCase));
 		}
 
+		[Theory]
+		[MemberData("ConcatData")]
+		public void Concat(IEnumerable<String> first, String[] second, IEnumerable<String> expect)
+		{
+			var concat = first.Concat(second);
+
+			Assert.Equal(expect, concat);
+		}
+
+		public static IEnumerable<Object[]> ConcatData()
+		{
+			String[] source = { "a", "b", "c" };
+
+			yield return new Object[] { source, new[] { "d" }, new[] { "a", "b", "c", "d" } };
+			yield return new Object[] { null, new[] { "d" }, new[] { "d" } };
+			yield return new Object[] { source, null, source };
+			yield return new Object[] { null, null, Enumerable.Empty<String>() };
+		}
+
+		[Theory]
+		[MemberData("ConcatHeadData")]
+		public void ConcatHead(IEnumerable<String> second, String[] first, IEnumerable<String> expect)
+		{
+			var concat = second.ConcatHead(first);
+
+			Assert.Equal(expect, concat);
+		}
+
+		public static IEnumerable<Object[]> ConcatHeadData()
+		{
+			String[] source = { "b", "c", "d" };
+
+			yield return new Object[] { source, new[] { "a" }, new[] { "a", "b", "c", "d" } };
+			yield return new Object[] { null, new[] { "a" }, new[] { "a" } };
+			yield return new Object[] { source, null, source };
+			yield return new Object[] { null, null, Enumerable.Empty<String>() };
+		}
 	}
 }

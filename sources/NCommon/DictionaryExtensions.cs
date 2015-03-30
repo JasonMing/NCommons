@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -101,23 +102,60 @@ namespace NCommon
 		/// <param name="source">The source dictionary.</param>
 		/// <param name="key">The key to find in the <paramref name="source"/>.</param>
 		/// <param name="value">The result value, if returns <c>true</c> this value is valid, else the <c>default(<typeparamref name="TOutValue"/>)</c> will be set.</param>
-		/// <param name="cast">Indicates should cast when the source value is not instance of <typeparamref name="TOutValue"/> (overrided cast operator).</param>
 		/// <param name="convert">Indicates should use the <see cref="Convert.ChangeType(object,System.Type)"/> to convert the value.</param>
 		/// <returns><c>true</c> indicates the <paramref name="value"/> is valid, otherwise <c>false</c>.</returns>
-		public static Boolean TryGetValue<TKey, TSourceValue, TOutValue>(this IDictionary<TKey, TSourceValue> source, TKey key, out TOutValue value, Boolean cast = false, Boolean convert = false)
+		public static Boolean TryGetValue<TKey, TSourceValue, TOutValue>(this IDictionary<TKey, TSourceValue> source, TKey key, out TOutValue value, Boolean convert = false)
 		{
 			TSourceValue sourceValue;
+
 			if (source.TryGetValue(key, out sourceValue))
 			{
-				if (sourceValue is TOutValue || cast)
+				// Try cast to TOutValue.
+				if (sourceValue.TryCast(out value))
 				{
-					return sourceValue.TryCast(out value);
-				} else if (convert)
+					return true;
+				}
+
+				// Try convert if convertible.
+				if (convert && sourceValue.TryConvert(out value))
 				{
-					return sourceValue.TryConvert(out value);
+					return true;
 				}
 			}
+
 			value = default(TOutValue);
+			return false;
+		}
+
+		/// <summary>
+		/// Try getting the value from the non-generic version <see cref="IDictionary"/> and change the value to the specific type <typeparamref name="TValue"/>.
+		/// </summary>
+		/// <typeparam name="TValue">The type of value you want change to.</typeparam>
+		/// <param name="source">The source dictionary.</param>
+		/// <param name="key">The key to find in the <paramref name="source"/>.</param>
+		/// <param name="value">The result value, if returns <c>true</c> this value is valid, else the <c>default(<typeparamref name="TValue"/>)</c> will be set.</param>
+		/// <param name="convert">Indicates should use the <see cref="Convert.ChangeType(object,System.Type)"/> to convert the value.</param>
+		/// <returns><c>true</c> indicates the <paramref name="value"/> is valid, otherwise <c>false</c>.</returns>
+		public static Boolean TryGetValue<TValue>(this IDictionary source, Object key, out TValue value, Boolean convert = false)
+		{
+			var sourceValue = source[key];
+
+			if (sourceValue != null)
+			{
+				// Try cast to TOutValue.
+				if (sourceValue.TryCast(out value))
+				{
+					return true;
+				}
+
+				// Try convert if convertible.
+				if (convert && sourceValue.TryConvert(out value))
+				{
+					return true;
+				}
+			}
+
+			value = default(TValue);
 			return false;
 		}
 

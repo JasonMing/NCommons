@@ -15,6 +15,14 @@ namespace NCommon
 			try
 			{
 				Ensure.ArgumentNotNull(argument, "argument");
+				Assert.False(shouldCorrupt);
+			} catch (ArgumentNullException)
+			{
+				Assert.True(shouldCorrupt);
+			}
+
+			try
+			{
 				Ensure.ArgumentNotNull(argument, "argument", "Argument should not be null.");
 				Assert.False(shouldCorrupt);
 			} catch (ArgumentNullException)
@@ -39,12 +47,23 @@ namespace NCommon
 			{
 				// ReSharper disable once PossibleMultipleEnumeration
 				Ensure.ArgumentNotEmpty(argument, "argument");
+				Assert.False(shouldCorrupt);
+			} catch (ArgumentNullException)
+			{
+				throw new InvalidOperationException("Unexpected exception.");
+			} catch (ArgumentException)
+			{
+				Assert.True(shouldCorrupt);
+			}
+
+			try
+			{
 				// ReSharper disable once PossibleMultipleEnumeration
 				Ensure.ArgumentNotEmpty(argument, "argument", "Argument should not be null.");
 				Assert.False(shouldCorrupt);
 			} catch (ArgumentNullException)
 			{
-				throw new InvalidOperationException("Unexpected excetion.");
+				throw new InvalidOperationException("Unexpected exception.");
 			} catch (ArgumentException)
 			{
 				Assert.True(shouldCorrupt);
@@ -56,6 +75,7 @@ namespace NCommon
 		{
 			this.EnsureArgumentNotEmpty(Helpers.NonGenericEmptyEnumerable, true);
 			this.EnsureArgumentNotEmpty(Helpers.GenericEmptyEnumerable<Object>(), true);
+			this.EnsureArgumentNotEmpty(new[] { 1, 2, 3 }, false);
 		}
 	}
 }

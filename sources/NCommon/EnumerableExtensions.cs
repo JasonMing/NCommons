@@ -174,7 +174,7 @@ namespace NCommon
 		public static IEnumerable<TSource> ConcatHead<TSource>(this IEnumerable<TSource> second, params TSource[] first)
 		{
 			// ReSharper disable once InvokeAsExtensionMethod
-			return Enumerable.Concat(second ?? Enumerable.Empty<TSource>(), first ?? Enumerable.Empty<TSource>());
+			return Enumerable.Concat(first ?? Enumerable.Empty<TSource>(), second ?? Enumerable.Empty<TSource>());
 		}
 
 		/// <summary>

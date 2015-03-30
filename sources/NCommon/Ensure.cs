@@ -40,7 +40,7 @@ namespace NCommon
 		{
 			if (source == null)
 			{
-				throw new ArgumentNullException(name, message);
+				throw new ArgumentNullException(message, name);
 			}
 		}
 

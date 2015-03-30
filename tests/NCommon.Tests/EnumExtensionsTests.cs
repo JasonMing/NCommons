@@ -43,9 +43,17 @@ namespace NCommon
 		}
 
 		[Fact]
+		public void IsEnumOfNonEnumType()
+		{
+			Assert.Throws<ArgumentException>(() => this.IsEnumOf<Int32>());
+			Assert.Throws<ArgumentException>(() => Operation.None.IsEnumOf(typeof(Enum)));
+		}
+
+		[Fact]
 		public void ToUnderlyingType()
 		{
 			Assert.IsType<Int32>(Operation.None.ToUndelyingType());
+			Assert.Null(((Enum)null).ToUndelyingType());
 		}
 
 	}

@@ -45,6 +45,7 @@
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="ObjectExtensions.cs" />
+    <Compile Include="Overrides.cs" />
     <Compile Include="Properties\Annotations.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
