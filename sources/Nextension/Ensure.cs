@@ -3,6 +3,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Nextension.Annotations;
+using Nextension.Properties;
 
 namespace Nextension
 {
@@ -56,7 +57,7 @@ namespace Nextension
 		{
 			if (source.IsEmpty())
 			{
-				throw new ArgumentException("Argument should not be emtpy.", name);
+				throw new ArgumentException(Resources.ArgumentCannotBeEmpty, name);
 			}
 		}
 

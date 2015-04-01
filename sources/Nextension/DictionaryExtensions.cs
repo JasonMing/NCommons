@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Nextension.Annotations;
 
 namespace Nextension
 {
@@ -16,37 +17,42 @@ namespace Nextension
 		/// <summary>
 		/// Wrap the <paramref name="source"/> by the access-safe dictionary.
 		/// </summary>
-		public static IDictionary<TKey, TValue> AsSafeDictionary<TKey, TValue>(this IDictionary<TKey, TValue> source)
+		[NotNull]
+		public static IDictionary<TKey, TValue> AsSafeDictionary<TKey, TValue>([CanBeNull] this IDictionary<TKey, TValue> source)
 		{
-			Ensure.ArgumentNotNull(source, "source");
-			return (source as SafeDictionary<TKey, TValue>) ?? new SafeDictionary<TKey, TValue>(source);
+			return (source as SafeDictionary<TKey, TValue>) ?? (source == null ? new SafeDictionary<TKey, TValue>() : new SafeDictionary<TKey, TValue>(source));
 		}
 
 		/// <summary>
 		/// Create a new <see cref="IDictionary{TKey,TValue}"/> and copy all entries in <paramref name="source"/>.
 		/// </summary>
-		public static IDictionary<TKey, TValue> ToSafeDictionary<TKey, TValue>(this IDictionary<TKey, TValue> source)
+		[NotNull]
+		public static IDictionary<TKey, TValue> ToSafeDictionary<TKey, TValue>([CanBeNull] this IDictionary<TKey, TValue> source)
 		{
-			return AsSafeDictionary(new Dictionary<TKey, TValue>(source));
+			return source == null ? new SafeDictionary<TKey, TValue>() : AsSafeDictionary(new Dictionary<TKey, TValue>(source));
 		}
 
 		/// <summary>
 		/// Create a new <see cref="IDictionary{TKey,TValue}"/> and copy all entries in <paramref name="source"/> with <paramref name="comparer"/>.
 		/// </summary>
-		public static IDictionary<TKey, TValue> ToSafeDictionary<TKey, TValue>(this IDictionary<TKey, TValue> source, IEqualityComparer<TKey> comparer)
+		[NotNull]
+		public static IDictionary<TKey, TValue> ToSafeDictionary<TKey, TValue>([CanBeNull] this IDictionary<TKey, TValue> source, IEqualityComparer<TKey> comparer)
 		{
-			return AsSafeDictionary(new Dictionary<TKey, TValue>(source, comparer));
+			Ensure.ArgumentNotNull(comparer, "comparer");
+
+			return source == null ? new SafeDictionary<TKey, TValue>() : AsSafeDictionary(new Dictionary<TKey, TValue>(source, comparer));
 		}
 
 		/// <summary>
 		/// Create a new <see cref="IDictionary{TKey,TValue}"/>, by using <paramref name="keySelector"/> to select keys and entries of <paramref name="source"/> as values.
 		/// A shorcut for <code>source.ToDictionary(keySelector).AsSafeDictionary()</code>.
 		/// </summary>
-		public static IDictionary<TKey, TSource> ToSafeDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+		[NotNull]
+		public static IDictionary<TKey, TSource> ToSafeDictionary<TSource, TKey>([CanBeNull] this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
 		{
 			Ensure.ArgumentNotNull(keySelector, "keySelector");
 
-			return source.ToDictionary(keySelector).AsSafeDictionary();
+			return source == null ? new SafeDictionary<TKey, TSource>() : source.ToDictionary(keySelector).AsSafeDictionary();
 		}
 
 		/// <summary>
@@ -54,12 +60,13 @@ namespace Nextension
 		/// A shorcut for <code>source.ToDictionary(keySelector, comparer).AsSafeDictionary()</code>.
 		/// </summary>
 		/// <exception cref="ArgumentNullException"><paramref name="keySelector"/> returns null, or <paramref name="comparer"/> is null.</exception>
-		public static IDictionary<TKey, TSource> ToSafeDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
+		[NotNull]
+		public static IDictionary<TKey, TSource> ToSafeDictionary<TSource, TKey>([CanBeNull] this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
 		{
 			Ensure.ArgumentNotNull(keySelector, "keySelector");
 			Ensure.ArgumentNotNull(comparer, "comparer");
 
-			return source.ToDictionary(keySelector, comparer).AsSafeDictionary();
+			return source == null ? new SafeDictionary<TKey, TSource>() : source.ToDictionary(keySelector, comparer).AsSafeDictionary();
 		}
 
 		/// <summary>
@@ -67,12 +74,13 @@ namespace Nextension
 		/// A shorcut for <code>source.ToDictionary(keySelector, elementSelector).AsSafeDictionary()</code>.
 		/// </summary>
 		/// <exception cref="ArgumentNullException"><paramref name="keySelector"/> returns null.</exception>
-		public static IDictionary<TKey, TElement> ToSafeDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSeletor)
+		[NotNull]
+		public static IDictionary<TKey, TElement> ToSafeDictionary<TSource, TKey, TElement>([CanBeNull] this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSeletor)
 		{
 			Ensure.ArgumentNotNull(keySelector, "keySelector");
 			Ensure.ArgumentNotNull(elementSeletor, "elementSeletor");
 
-			return source.ToDictionary(keySelector, elementSeletor).AsSafeDictionary();
+			return source == null ? new SafeDictionary<TKey, TElement>() : source.ToDictionary(keySelector, elementSeletor).AsSafeDictionary();
 		}
 
 		/// <summary>
@@ -80,13 +88,14 @@ namespace Nextension
 		/// A shorcut for <code>source.ToDictionary(keySelector, elementSelector, comparer).AsSafeDictionary()</code>.
 		/// </summary>
 		/// <exception cref="ArgumentNullException"><paramref name="keySelector"/> returns null, or <paramref name="comparer"/> is null.</exception>
-		public static IDictionary<TKey, TElement> ToSafeDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSeletor, IEqualityComparer<TKey> comparer)
+		[NotNull]
+		public static IDictionary<TKey, TElement> ToSafeDictionary<TSource, TKey, TElement>([CanBeNull] this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSeletor, IEqualityComparer<TKey> comparer)
 		{
 			Ensure.ArgumentNotNull(keySelector, "keySelector");
 			Ensure.ArgumentNotNull(elementSeletor, "elementSeletor");
 			Ensure.ArgumentNotNull(comparer, "comparer");
 
-			return source.ToDictionary(keySelector, elementSeletor, comparer).AsSafeDictionary();
+			return source == null ? new SafeDictionary<TKey, TElement>() : source.ToDictionary(keySelector, elementSeletor, comparer).AsSafeDictionary();
 		}
 
 		#endregion
@@ -104,22 +113,25 @@ namespace Nextension
 		/// <param name="value">The result value, if returns <c>true</c> this value is valid, else the <c>default(<typeparamref name="TOutValue"/>)</c> will be set.</param>
 		/// <param name="convert">Indicates should use the <see cref="Convert.ChangeType(object,System.Type)"/> to convert the value.</param>
 		/// <returns><c>true</c> indicates the <paramref name="value"/> is valid, otherwise <c>false</c>.</returns>
-		public static Boolean TryGetValue<TKey, TSourceValue, TOutValue>(this IDictionary<TKey, TSourceValue> source, TKey key, out TOutValue value, Boolean convert = false)
+		public static Boolean TryGetValue<TKey, TSourceValue, TOutValue>([CanBeNull] this IDictionary<TKey, TSourceValue> source, TKey key, out TOutValue value, Boolean convert = false)
 		{
-			TSourceValue sourceValue;
-
-			if (source.TryGetValue(key, out sourceValue))
+			if (source != null)
 			{
-				// Try cast to TOutValue.
-				if (sourceValue.TryCast(out value))
-				{
-					return true;
-				}
+				TSourceValue sourceValue;
 
-				// Try convert if convertible.
-				if (convert && sourceValue.TryConvert(out value))
+				if (source.TryGetValue(key, out sourceValue))
 				{
-					return true;
+					// Try cast to TOutValue.
+					if (sourceValue.TryCast(out value))
+					{
+						return true;
+					}
+
+					// Try convert if convertible.
+					if (convert && sourceValue.TryConvert(out value))
+					{
+						return true;
+					}
 				}
 			}
 
@@ -136,22 +148,25 @@ namespace Nextension
 		/// <param name="value">The result value, if returns <c>true</c> this value is valid, else the <c>default(<typeparamref name="TValue"/>)</c> will be set.</param>
 		/// <param name="convert">Indicates should use the <see cref="Convert.ChangeType(object,System.Type)"/> to convert the value.</param>
 		/// <returns><c>true</c> indicates the <paramref name="value"/> is valid, otherwise <c>false</c>.</returns>
-		public static Boolean TryGetValue<TValue>(this IDictionary source, Object key, out TValue value, Boolean convert = false)
+		public static Boolean TryGetValue<TValue>([CanBeNull] this IDictionary source, Object key, out TValue value, Boolean convert = false)
 		{
-			var sourceValue = source[key];
-
-			if (sourceValue != null)
+			if (source != null)
 			{
-				// Try cast to TOutValue.
-				if (sourceValue.TryCast(out value))
-				{
-					return true;
-				}
+				var sourceValue = source[key];
 
-				// Try convert if convertible.
-				if (convert && sourceValue.TryConvert(out value))
+				if (sourceValue != null)
 				{
-					return true;
+					// Try cast to TOutValue.
+					if (sourceValue.TryCast(out value))
+					{
+						return true;
+					}
+
+					// Try convert if convertible.
+					if (convert && sourceValue.TryConvert(out value))
+					{
+						return true;
+					}
 				}
 			}
 
@@ -162,7 +177,7 @@ namespace Nextension
 		/// <summary>
 		/// Try get value or default.
 		/// </summary>
-		public static TValue TryGetValue<TSource, TValue>(this IDictionary<TSource, TValue> source, TSource key)
+		public static TValue TryGetValue<TSource, TValue>([CanBeNull] this IDictionary<TSource, TValue> source, TSource key)
 		{
 			TValue value;
 			return (source != null && source.TryGetValue(key, out value)) ? value : default(TValue);

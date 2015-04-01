@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Nextension.Annotations;
 
 namespace Nextension
 {
@@ -49,11 +50,11 @@ namespace Nextension
 		/// <param name="source">The source object.</param>
 		/// <param name="other">The other object.</param>
 		/// <param name="selectors">The selector to select the value to compare.</param>
-		public static Boolean EqualsWith<T>(this T source, T other, params Func<T, Object>[] selectors)
+		public static Boolean EqualsWith<T>([CanBeNull] this T source, [CanBeNull] T other, params Func<T, Object>[] selectors)
 		{
 			Ensure.ArgumentNotNull(selectors, "selectors");
 
-			return ReferenceEquals(source, other) || (selectors.Length != 0 && selectors.All(s => Object.Equals(s(source), s(other))));
+			return ReferenceEquals(source, other) || (source != null && other != null && selectors.Length != 0 && selectors.All(s => Equals(s(source), s(other))));
 		}
 
 		/// <summary>
@@ -63,7 +64,7 @@ namespace Nextension
 		/// <param name="source">The source object.</param>
 		/// <param name="other">The other object.</param>
 		/// <param name="selectors">The selector to select the value to compare.</param>
-		public static Boolean EqualsWith<T>(this T source, Object other, params Func<T, Object>[] selectors)
+		public static Boolean EqualsWith<T>([CanBeNull] this T source, [CanBeNull] Object other, params Func<T, Object>[] selectors)
 		{
 			Ensure.ArgumentNotNull(selectors, "selectors");
 
@@ -72,8 +73,8 @@ namespace Nextension
 				return true;
 			}
 
-			T castedSource;
-			return other.TryCast(out castedSource) && source.EqualsWith(castedSource, selectors);
+			T castedOther;
+			return other.TryCast(out castedOther) && source.EqualsWith(castedOther, selectors);
 		}
 	}
 }

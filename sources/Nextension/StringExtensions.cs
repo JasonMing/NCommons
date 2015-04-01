@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Nextension.Annotations;
 
 namespace Nextension
 {
@@ -17,7 +18,7 @@ namespace Nextension
 		/// <param name="pattern">The regular-expression.</param>
 		/// <returns><c>true</c> means match, <c>false</c> otherwise.</returns>
 		[DebuggerStepThrough]
-		public static Boolean RegexMatch(this String source, String pattern)
+		public static Boolean RegexMatch([CanBeNull]this String source, String pattern)
 		{
 			Ensure.ArgumentNotNull(pattern, "pattern");
 
@@ -32,7 +33,7 @@ namespace Nextension
 		/// <param name="replacement">The regular-expression replacement.</param>
 		/// <returns>The replaced string.</returns>
 		[DebuggerStepThrough]
-		public static String RegexReplace(this String source, String pattern, String replacement)
+		public static String RegexReplace([CanBeNull] this String source, String pattern, String replacement)
 		{
 			Ensure.ArgumentNotNull(pattern, "pattern");
 
@@ -45,7 +46,7 @@ namespace Nextension
 		/// <param name="source">The <see cref="String"/> to be determined.</param>
 		/// <returns><c>true</c> means string is null or empty, <c>false</c> otherwise.</returns>
 		[DebuggerStepThrough]
-		public static Boolean IsEmpty(this String source)
+		public static Boolean IsEmpty([CanBeNull] this String source)
 		{
 			return String.IsNullOrEmpty(source);
 		}
@@ -56,7 +57,7 @@ namespace Nextension
 		/// <param name="source">The <see cref="String"/> to be determined.</param>
 		/// <returns><c>true</c> means string is neither null nor empty, <c>false</c> otherwise.</returns>
 		[DebuggerStepThrough]
-		public static Boolean IsNotEmpty(this String source)
+		public static Boolean IsNotEmpty([CanBeNull] this String source)
 		{
 			return !String.IsNullOrEmpty(source);
 		}
@@ -67,7 +68,7 @@ namespace Nextension
 		/// <param name="source">The <see cref="String"/> to be determined.</param>
 		/// <returns><c>true</c> means string is null or whitespace-only, <c>false</c> otherwise.</returns>
 		[DebuggerStepThrough]
-		public static Boolean IsBlank(this String source)
+		public static Boolean IsBlank([CanBeNull] this String source)
 		{
 			return String.IsNullOrWhiteSpace(source);
 		}
@@ -78,7 +79,7 @@ namespace Nextension
 		/// <param name="source">The <see cref="String"/> to be determined.</param>
 		/// <returns><c>true</c> means string is neither null nor whitespace-only, <c>false</c> otherwise.</returns>
 		[DebuggerStepThrough]
-		public static Boolean IsNotBlank(this String source)
+		public static Boolean IsNotBlank([CanBeNull] this String source)
 		{
 			return !String.IsNullOrWhiteSpace(source);
 		}

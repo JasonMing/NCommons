@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
+using Nextension.Annotations;
 
 namespace Nextension
 {
@@ -48,7 +49,7 @@ namespace Nextension
 		/// </summary>
 		/// <typeparam name="T">The type will be convert to.</typeparam>
 		/// <returns>The converted value.</returns>
-		public static T Value<T>(this XElement element)
+		public static T Value<T>([CanBeNull] this XElement element)
 		{
 			return element == null ? NullOrError<T>() : ConvertTo<T>(element.Value);
 		}
@@ -60,7 +61,7 @@ namespace Nextension
 		/// </summary>
 		/// <typeparam name="T">The type will be convert to.</typeparam>
 		/// <returns>The converted value.</returns>
-		public static T Value<T>(this XElement element, XName name)
+		public static T Value<T>([CanBeNull] this XElement element, XName name)
 		{
 			if (element == null)
 			{
@@ -90,7 +91,7 @@ namespace Nextension
 		/// Get the child element's literal value.
 		/// </summary>
 		/// <returns>The literal value.</returns>
-		public static String Value(this XElement element, XName name)
+		public static String Value([CanBeNull] this XElement element, XName name)
 		{
 			return Value<String>(element, name);
 		}
@@ -100,7 +101,7 @@ namespace Nextension
 		/// </summary>
 		/// <typeparam name="T">The type will be convert to.</typeparam>
 		/// <returns>The converted value.</returns>
-		public static T Value<T>(this XmlElement element)
+		public static T Value<T>([CanBeNull] this XmlElement element)
 		{
 			return element == null ? NullOrError<T>() : ConvertTo<T>(element.Value);
 		}
@@ -112,7 +113,7 @@ namespace Nextension
 		/// </summary>
 		/// <typeparam name="T">The type will be convert to.</typeparam>
 		/// <returns>The converted value.</returns>
-		public static T Value<T>(this XmlElement element, XName name)
+		public static T Value<T>([CanBeNull] this XmlElement element, XName name)
 		{
 			Ensure.ArgumentNotNull(name, "name");
 
@@ -144,7 +145,7 @@ namespace Nextension
 		/// A convention method for <see cref="Value{T}(XmlElement, XName)"/> that using <see cref="XmlQualifiedName"/> as the <paramref name="name"/>.
 		/// </summary>
 		/// <seealso cref="Value{T}(XmlElement, XName)"/>
-		public static T Value<T>(this XmlElement element, XmlQualifiedName name)
+		public static T Value<T>([CanBeNull] this XmlElement element, XmlQualifiedName name)
 		{
 			Ensure.ArgumentNotNull(name, "name");
 
@@ -155,7 +156,7 @@ namespace Nextension
 		/// Get the child element's literal value.
 		/// </summary>
 		/// <returns>The literal value.</returns>
-		public static String Value(this XmlElement element, XName name)
+		public static String Value([CanBeNull] this XmlElement element, XName name)
 		{
 			return Value<String>(element, name);
 		}

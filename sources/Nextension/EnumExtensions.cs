@@ -16,7 +16,7 @@ namespace Nextension
 		/// <param name="source">The enum object. <c>null</c> will always be assumed undefined.</param>
 		/// <returns>If <paramref name="source"/> is a defined value returns <c>true</c>, otherwise <c>false</c>.</returns>
 		[DebuggerStepThrough]
-		public static Boolean IsDefined(this Enum source)
+		public static Boolean IsDefined([CanBeNull] this Enum source)
 		{
 			return source != null && Enum.IsDefined(source.GetType(), source);
 		}
@@ -29,7 +29,7 @@ namespace Nextension
 		/// <param name="source">The enum object. <c>null</c> will always be assumed undefined.</param>
 		/// <returns>If <paramref name="source"/> is a defined value returns <c>true</c>, otherwise <c>false</c>.</returns>
 		[DebuggerStepThrough]
-		public static Boolean IsEnumOf<TEnum>(this Object source)
+		public static Boolean IsEnumOf<TEnum>([CanBeNull] this Object source)
 			where TEnum : struct
 		{
 			if (!typeof(TEnum).IsEnum)
@@ -48,7 +48,7 @@ namespace Nextension
 		/// <param name="enumType">The enum type.</param>
 		/// <returns>If <paramref name="source"/> is a defined value returns <c>true</c>, otherwise <c>false</c>.</returns>
 		[DebuggerStepThrough]
-		public static Boolean IsEnumOf(this Object source, [NotNull] Type enumType)
+		public static Boolean IsEnumOf([CanBeNull] this Object source, Type enumType)
 		{
 			Ensure.ArgumentNotNull(enumType, "enumType");
 
@@ -76,7 +76,7 @@ namespace Nextension
 		/// <param name="source">The enum object, passing <c>null</c> is permitted.</param>
 		/// <returns>The boxed instance of the enum underlying type, <c>null</c> is returned is <paramref name="source"/> is.</returns>
 		[DebuggerStepThrough]
-		public static Object ToUndelyingType(this Enum source)
+		public static Object ToUndelyingType([CanBeNull] this Enum source)
 		{
 			if (source == null)
 			{

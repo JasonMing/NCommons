@@ -13,7 +13,7 @@ namespace Nextension
 	{
 		[DebuggerStepThrough]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static TResult ValueOrDefault<TSource, TResult>([CanBeNull] this TSource source, Func<TSource, TResult> valuer)
+		public static TResult ValueOrDefault<TSource, TResult>([CanBeNull] this TSource source, [NotNull] Func<TSource, TResult> valuer)
 			where TSource : class
 		{
 			return (source == null) ? default(TResult) : valuer(source);
@@ -21,7 +21,7 @@ namespace Nextension
 
 		[DebuggerStepThrough]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static TResult ValueOrDefault<TSource, TResult>([CanBeNull] this TSource source, Func<TSource, TResult> valuer, TResult defaultValue)
+		public static TResult ValueOrDefault<TSource, TResult>([CanBeNull] this TSource source, [NotNull] Func<TSource, TResult> valuer, TResult defaultValue)
 			where TSource : class
 		{
 			return (source == null) ? defaultValue : valuer(source);
@@ -29,7 +29,7 @@ namespace Nextension
 
 		[DebuggerStepThrough]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static TResult ValueOrDefault<TSource, TResult>([CanBeNull] this TSource source, Func<TSource, TResult> valuer, Func<TResult> defaultValuer)
+		public static TResult ValueOrDefault<TSource, TResult>([CanBeNull] this TSource source, [NotNull] Func<TSource, TResult> valuer, [NotNull] Func<TResult> defaultValuer)
 			where TSource : class
 		{
 			return (source == null) ? defaultValuer() : valuer(source);
@@ -41,7 +41,7 @@ namespace Nextension
 		/// </summary>
 		[DebuggerStepThrough]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static T As<T>(this Object source)
+		public static T As<T>([CanBeNull] this Object source)
 			where T : class
 		{
 			return source as T;
@@ -53,7 +53,7 @@ namespace Nextension
 		/// </summary>
 		[DebuggerStepThrough]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Boolean InstanceOf<T>(this Object source)
+		public static Boolean InstanceOf<T>([CanBeNull] this Object source)
 		{
 			return source is T;
 		}
@@ -63,7 +63,7 @@ namespace Nextension
 		/// Beware, the compile-time casting operator cannot be used in the runtime casting.
 		/// NOTE: Be care using with the value-types, the boxing mechanism may causes the performance issue.
 		/// </summary>
-		public static Boolean TryCast<T>(this Object source, out T value)
+		public static Boolean TryCast<T>([CanBeNull] this Object source, out T value)
 		{
 			// ReSharper disable once CanBeReplacedWithTryCastAndCheckForNull
 			if (source is T)
@@ -81,7 +81,7 @@ namespace Nextension
 		/// Try convert the <paramref name="source"/> to the specific type <typeparamref name="T"/> by using <see cref="Convert.ChangeType(Object, Type)"/>.
 		/// NOTE: Be care using with the value-types, the boxing mechanism may causes the performance issue.
 		/// </summary>
-		public static Boolean TryConvert<T>(this Object source, out T value)
+		public static Boolean TryConvert<T>([CanBeNull] this Object source, out T value)
 		{
 			Exception _;
 			return TryConvert(source, out value, out _);
@@ -91,7 +91,7 @@ namespace Nextension
 		/// Try convert the <paramref name="source"/> to the specific type <typeparamref name="T"/> by using <see cref="Convert.ChangeType(Object, Type)"/>.
 		/// NOTE: Be care using with the value-types, the boxing mechanism may causes the performance issue.
 		/// </summary>
-		public static Boolean TryConvert<T>(this Object source, out T value, out Exception exception)
+		public static Boolean TryConvert<T>([CanBeNull] this Object source, out T value, out Exception exception)
 		{
 			var type = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);  // Unwrap the type if it is nullable.
 			try

@@ -61,6 +61,15 @@ namespace Nextension.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Argument can not be emtpy. 的本地化字符串。
+        /// </summary>
+        internal static string ArgumentCannotBeEmpty {
+            get {
+                return ResourceManager.GetString("ArgumentCannotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Type must be Enum. 的本地化字符串。
         /// </summary>
         internal static string TypeMustBeEnum {

@@ -22,7 +22,7 @@ namespace Nextension
 		/// <param name="source">The non-generic version <see cref="IEnumerable"/>.</param>
 		/// <returns><c>true</c> means empty, <c>false</c> otherwise.</returns>
 		[DebuggerStepThrough]
-		public static Boolean IsEmpty(this IEnumerable source)
+		public static Boolean IsEmpty([CanBeNull] this IEnumerable source)
 		{
 			var asCollection = source as ICollection;
 			if (asCollection != null)
@@ -38,7 +38,7 @@ namespace Nextension
 		/// <param name="source">The non-generic version <see cref="IEnumerable"/>.</param>
 		/// <returns><c>true</c> means not empty, <c>false</c> otherwise.</returns>
 		[DebuggerStepThrough]
-		public static Boolean IsNotEmpty(this IEnumerable source)
+		public static Boolean IsNotEmpty([CanBeNull] this IEnumerable source)
 		{
 			var asCollection = source as ICollection;
 			if (asCollection != null)
@@ -55,7 +55,7 @@ namespace Nextension
 		/// <param name="source"> The generic version <see cref="IEnumerable{T}"/>. </param>
 		/// <returns> <c>true</c> means empty, <c>false</c> otherwise. </returns>
 		[DebuggerStepThrough]
-		public static Boolean IsEmpty<TSource>(this IEnumerable<TSource> source)
+		public static Boolean IsEmpty<TSource>([CanBeNull] this IEnumerable<TSource> source)
 		{
 			var asCollection = source as ICollection;
 			if (asCollection != null)
@@ -72,7 +72,7 @@ namespace Nextension
 		/// <param name="source">The generic version <see cref="IEnumerable{T}"/>.</param>
 		/// <returns><c>true</c> means not empty, <c>false</c> otherwise.</returns>
 		[DebuggerStepThrough]
-		public static Boolean IsNotEmpty<TSource>(this IEnumerable<TSource> source)
+		public static Boolean IsNotEmpty<TSource>([CanBeNull] this IEnumerable<TSource> source)
 		{
 			var asCollection = source as ICollection;
 			if (asCollection != null)
@@ -91,7 +91,7 @@ namespace Nextension
 		/// <param name="sources">The sequence for determining whether <paramref name="source"/> is in.</param>
 		/// <returns><c>true</c> means <paramref name="source"/> is in <paramref name="sources"/>, <c>false</c> otherwise.</returns>
 		[DebuggerStepThrough]
-		public static Boolean IsIn<TSource>(this TSource source, params TSource[] sources)
+		public static Boolean IsIn<TSource>([CanBeNull] this TSource source, params TSource[] sources)
 		{
 			return sources.IsNotEmpty() && sources.Any(item => Equals(item, source));
 		}
@@ -106,7 +106,7 @@ namespace Nextension
 		/// <param name="sources">The sequence for determining whether <paramref name="source"/> is in.</param>
 		/// <returns><c>true</c> means <paramref name="source"/> is in <paramref name="sources"/>, <c>false</c> otherwise.</returns>
 		/// <exception cref="ArgumentNullException"><paramref name="comparer"/> is null.</exception>
-		public static Boolean IsIn<TSource>(this TSource source, IEqualityComparer<TSource> comparer, params TSource[] sources)
+		public static Boolean IsIn<TSource>([CanBeNull] this TSource source, IEqualityComparer<TSource> comparer, params TSource[] sources)
 		{
 			Ensure.ArgumentNotNull(comparer, "comparer");
 
@@ -122,7 +122,7 @@ namespace Nextension
 		/// <param name="sources">The sequence for determining whether <paramref name="source"/> is not in.</param>
 		/// <returns><c>true</c> means <paramref name="source"/> is not in <paramref name="sources"/>, <c>false</c> otherwise.</returns>
 		[DebuggerStepThrough]
-		public static Boolean IsNotIn<TSource>(this TSource source, params TSource[] sources)
+		public static Boolean IsNotIn<TSource>([CanBeNull] this TSource source, params TSource[] sources)
 		{
 			return sources.IsEmpty() || sources.All(item => !Equals(item, source));
 		}
@@ -138,7 +138,7 @@ namespace Nextension
 		/// <returns><c>true</c> means <paramref name="source"/> is not in <paramref name="sources"/>, <c>false</c> otherwise.</returns>
 		/// <exception cref="ArgumentNullException"><paramref name="comparer"/> is null.</exception>
 		[DebuggerStepThrough]
-		public static Boolean IsNotIn<TSource>(this TSource source, IEqualityComparer<TSource> comparer, params TSource[] sources)
+		public static Boolean IsNotIn<TSource>([CanBeNull] this TSource source, IEqualityComparer<TSource> comparer, params TSource[] sources)
 		{
 			Ensure.ArgumentNotNull(comparer, "comparer");
 
@@ -157,7 +157,7 @@ namespace Nextension
 		/// <param name="second">The collection (params arguments) to be concat to the tail of <paramref name="first"/>.</param>
 		/// <returns>The concated collection.</returns>
 		[NotNull]
-		public static IEnumerable<TSource> Concat<TSource>(this IEnumerable<TSource> first, params TSource[] second)
+		public static IEnumerable<TSource> Concat<TSource>([CanBeNull] this IEnumerable<TSource> first, params TSource[] second)
 		{
 			// ReSharper disable once InvokeAsExtensionMethod
 			return Enumerable.Concat(first ?? Enumerable.Empty<TSource>(), second ?? Enumerable.Empty<TSource>());
@@ -171,7 +171,7 @@ namespace Nextension
 		/// <param name="first">The collection to be concat as the first part.</param>
 		/// <returns>The concated collection.</returns>
 		[NotNull]
-		public static IEnumerable<TSource> ConcatHead<TSource>(this IEnumerable<TSource> second, params TSource[] first)
+		public static IEnumerable<TSource> ConcatHead<TSource>([CanBeNull] this IEnumerable<TSource> second, params TSource[] first)
 		{
 			// ReSharper disable once InvokeAsExtensionMethod
 			return Enumerable.Concat(first ?? Enumerable.Empty<TSource>(), second ?? Enumerable.Empty<TSource>());
@@ -186,7 +186,7 @@ namespace Nextension
 		/// <param name="keySelector">Selector for select the key from <paramref name="source"/>.</param>
 		/// <returns>An <see cref="IEnumerable{TSource}"/> that contains distinct elements from the <paramref name="source"/> sequence.</returns>
 		/// <exception cref="ArgumentNullException"><paramref name="keySelector"/> is null.</exception>
-		public static IEnumerable<TSource> Distinct<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+		public static IEnumerable<TSource> Distinct<TSource, TKey>([CanBeNull] this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
 		{
 			Ensure.ArgumentNotNull(keySelector, "keySelector");
 
@@ -203,7 +203,7 @@ namespace Nextension
 		/// <param name="keyComparer">The <see cref="IEqualityComparer{T}"/> for the <typeparamref name="TKey"/>.</param>
 		/// <returns>An <see cref="IEnumerable{TSource}"/> that contains distinct elements from the <paramref name="source"/> sequence.</returns>
 		/// <exception cref="ArgumentNullException"><paramref name="keySelector"/> or <paramref name="keyComparer"/> is null.</exception>
-		public static IEnumerable<TSource> Distinct<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> keyComparer)
+		public static IEnumerable<TSource> Distinct<TSource, TKey>([CanBeNull] this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> keyComparer)
 		{
 			Ensure.ArgumentNotNull(keySelector, "keySelector");
 			Ensure.ArgumentNotNull(keyComparer, "keyComparer");
@@ -222,7 +222,7 @@ namespace Nextension
 		/// <param name="source">The sequence to enumerate. It's null-safe.</param>
 		/// <param name="action">The action to do for each elements.</param>
 		/// <exception cref="ArgumentNullException"><paramref name="action"/> is null.</exception>
-		public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> action)
+		public static void ForEach<TSource>([CanBeNull] this IEnumerable<TSource> source, [InstantHandle] Action<TSource> action)
 		{
 			Ensure.ArgumentNotNull(action, "action");
 
@@ -244,7 +244,7 @@ namespace Nextension
 		/// <param name="source">The sequence to enumerate. It's null-safe.</param>
 		/// <param name="action">The action to do for each elements.</param>
 		/// <exception cref="ArgumentNullException"><paramref name="action"/> is null.</exception>
-		public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<Int32, TSource> action)
+		public static void ForEach<TSource>([CanBeNull] this IEnumerable<TSource> source, [InstantHandle] Action<Int32, TSource> action)
 		{
 			Ensure.ArgumentNotNull(action, "action");
 
