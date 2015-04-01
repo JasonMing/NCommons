@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using NCommon.Annotations;
+using Nextension.Annotations;
 
-namespace NCommon
+namespace Nextension
 {
 	/// <summary>
 	/// The extensions for enums.

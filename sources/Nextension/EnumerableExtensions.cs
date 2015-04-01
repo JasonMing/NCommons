@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using NCommon.Annotations;
+using Nextension.Annotations;
 
-namespace NCommon
+namespace Nextension
 {
 	/// <summary>
 	/// The extensions for any <see cref="IEnumerable{T}"/>.

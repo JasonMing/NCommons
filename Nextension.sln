@@ -3,20 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCommon.NET45", "Sources\NCommon\NCommon.NET45.csproj", "{FF21A89F-24D7-489C-84C4-12E8FDB27E04}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nextension", "sources\Nextension\Nextension.csproj", "{FF21A89F-24D7-489C-84C4-12E8FDB27E04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCommon.Tests", "Tests\NCommon.Tests\NCommon.Tests.csproj", "{977ED258-EDF5-45C9-8744-7C3D6FFE8172}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nextension.Tests", "tests\Nextension.Tests\Nextension.Tests.csproj", "{977ED258-EDF5-45C9-8744-7C3D6FFE8172}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4C4A87EE-12A7-462D-B3DF-2B9FFA54C405}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "tests", "{4C4A87EE-12A7-462D-B3DF-2B9FFA54C405}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{4C355FE5-245E-41F5-84E5-213F997318FB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1186119A-76E7-40F6-BE60-431054FBB91B}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "sources", "{4C355FE5-245E-41F5-84E5-213F997318FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

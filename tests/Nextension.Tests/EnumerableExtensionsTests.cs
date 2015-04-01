@@ -2,16 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NCommon.Annotations;
 using Xunit;
 
-namespace NCommon
+namespace Nextension
 {
 	public class EnumerableExtensionsTests
 	{
 		//// ReSharper disable PossibleMultipleEnumeration
 		//// ReSharper disable ExpressionIsAlwaysNull
-
 		[Theory]
 		[InlineData(null, true)]
 		public void IsEmpty(IEnumerable source, Boolean expect)

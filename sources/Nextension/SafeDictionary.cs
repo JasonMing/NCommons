@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace NCommon
+namespace Nextension
 {
 	[Serializable]
 	class SafeDictionary<TKey, TValue> : IDictionary<TKey, TValue>

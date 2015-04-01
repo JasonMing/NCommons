@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>NCommons</id>
+    <version>$version$</version>
+    <authors>MiNG</authors>
+    <owners>MiNG</owners>
+    <licenseUrl>https://github.com/JasonMing/NCommons/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/JasonMing/NCommons</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright MiNG 2015</copyright>
+    <tags>Commons Extensions</tags>
+  </metadata>
+</package>

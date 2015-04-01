@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Xunit;
 
-namespace NCommon
+namespace Nextension
 {
 	public class DictionaryExtensionsTests
 	{
@@ -28,8 +28,8 @@ namespace NCommon
 		{
 			var source = new Dictionary<String, String>
 			{
-				{"foo", "value"},
-				{"bar", "value2"},
+				{"foo", "value"}, 
+				{"bar", "value2"}, 
 			};
 
 			var safeDictionary = source.ToSafeDictionary();
@@ -56,8 +56,8 @@ namespace NCommon
 		{
 			var source = new Dictionary<String, String>
 			{
-				{"foo", "value"},
-				{"Foo", "value2"},
+				{"foo", "value"}, 
+				{"Foo", "value2"}, 
 			};
 
 			Assert.Throws<ArgumentException>(() => source.ToSafeDictionary(StringComparer.OrdinalIgnoreCase));
@@ -119,10 +119,10 @@ namespace NCommon
 		{
 			var source = new Dictionary<String, Object>
 			{
-				{"string", "value"},
-				{"int_string", "1"},
-				{"int", 1},
-				{"mytype", (Value)"value"},
+				{"string", "value"}, 
+				{"int_string", "1"}, 
+				{"int", 1}, 
+				{"mytype", (Value)"value"}, 
 			};
 
 			T value;

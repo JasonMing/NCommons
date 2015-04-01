@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NCommon
+namespace Nextension
 {
 	/// <summary>
 	/// The extensions for <see cref="IDictionary{TKey,TValue}"/>.

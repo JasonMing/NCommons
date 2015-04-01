@@ -11,7 +11,7 @@
 // ReSharper disable CheckNamespace
 // ReSharper disable RedundantAttributeUsageProperty
 
-namespace NCommon.Annotations
+namespace Nextension.Annotations
 {
   /// <summary>
   /// Indicates that the value of the marked element could be <c>null</c> sometimes,

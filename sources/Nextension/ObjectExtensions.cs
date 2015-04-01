@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using NCommon.Annotations;
+using Nextension.Annotations;
 
-namespace NCommon
+namespace Nextension
 {
 	/// <summary>
 	/// The extension for every object.

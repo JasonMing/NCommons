@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace NCommon
+namespace Nextension
 {
 	public class ObjectExtensionsTests
 	{
@@ -106,16 +106,16 @@ namespace NCommon
 		{
 			var source = new
 			{
-				Prop1 = "1",
-				Prop2 = 1,
-				Prop3 = (Object)null,
+				Prop1 = "1", 
+				Prop2 = 1, 
+				Prop3 = (Object)null, 
 			};
 
 			var cloned = new
 			{
-				source.Prop1,
-				source.Prop2,
-				Prop3 = new Object(),
+				source.Prop1, 
+				source.Prop2, 
+				Prop3 = new Object(), 
 			};
 
 			Assert.True(source.EqualsWith(source));

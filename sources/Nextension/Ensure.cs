@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using NCommon.Annotations;
+using Nextension.Annotations;
 
-namespace NCommon
+namespace Nextension
 {
 	/// <summary>
 	/// The utility to ensure the given key matches the specified rules.

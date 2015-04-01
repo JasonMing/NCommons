@@ -7,8 +7,8 @@
     <ProjectGuid>{977ED258-EDF5-45C9-8744-7C3D6FFE8172}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NCommon</RootNamespace>
-    <AssemblyName>NCommon.Tests</AssemblyName>
+    <RootNamespace>Nextension</RootNamespace>
+    <AssemblyName>Nextension.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -37,6 +37,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)\sources\Nextension.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -68,11 +74,12 @@
     <Compile Include="ObjectExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtensionsTests.cs" />
+    <Compile Include="XmlExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Sources\NCommon\NCommon.NET45.csproj">
+    <ProjectReference Include="..\..\sources\Nextension\Nextension.csproj">
       <Project>{ff21a89f-24d7-489c-84c4-12e8fdb27e04}</Project>
-      <Name>NCommon.NET45</Name>
+      <Name>Nextension</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

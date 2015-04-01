@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace NCommon
+namespace Nextension
 {
 	public class StringExtensionsTests
 	{

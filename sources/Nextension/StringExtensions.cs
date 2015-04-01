@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
-namespace NCommon
+namespace Nextension
 {
 	/// <summary>
 	/// The extensions for any <see cref="String"/>.
