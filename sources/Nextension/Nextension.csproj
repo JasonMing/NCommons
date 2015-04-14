@@ -57,6 +57,7 @@
     </Compile>
     <Compile Include="SafeDictionary.cs" />
     <Compile Include="StringExtensions.cs" />
+    <Compile Include="Tasks.cs" />
     <Compile Include="XmlExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

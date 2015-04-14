@@ -135,7 +135,7 @@ namespace Nextension
 				value = attribute.Value;
 			} else
 			{
-				value = childElemnts[0].Value;
+				value = childElemnts[0].InnerText;
 			}
 
 			return ConvertTo<T>(value);
@@ -159,6 +159,88 @@ namespace Nextension
 		public static String Value([CanBeNull] this XmlElement element, XName name)
 		{
 			return Value<String>(element, name);
+		}
+
+		/// <summary>
+		/// Returns inner-xml (well-formed, no indent, escaped) literal value, null returned if <paramref name="element"/> is null.
+		/// (The behavior is similiar to <see cref="XmlElement.InnerXml"/>)
+		/// </summary>
+		/// <param name="element">The element.</param>
+		/// <returns>The inner-xml literal value, null if <paramref name="element"/> is null, otherwise <see cref="String.Empty"/> will be return.</returns>
+		public static String InnerXml([CanBeNull] this XElement element)
+		{
+			if (element == null)
+			{
+				return null;
+			}
+
+			using (var reader = element.CreateReader())
+			{
+				// Check reader at first element or before-first position.
+				if (reader.ReadState == ReadState.Interactive || (reader.ReadState == ReadState.Initial && reader.Read()))
+				{
+					return reader.ReadInnerXml();
+				} else
+				{
+					return String.Empty;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Returns outer-xml (well-formed, no indent, escaped) literal value, null returned if <paramref name="element"/> is null.
+		/// (The behavior is similiar to <see cref="XmlElement.OuterXml"/>)
+		/// </summary>
+		/// <param name="element">The element.</param>
+		/// <returns>The outer-xml literal value, null if <paramref name="element"/> is null, otherwise <see cref="String.Empty"/> will be return.</returns>
+		public static String OuterXml([CanBeNull] this XElement element)
+		{
+			if (element == null)
+			{
+				return null;
+			}
+
+			using (var reader = element.CreateReader())
+			{
+				// Check reader at first element or before-first position.
+				if (reader.ReadState == ReadState.Interactive || (reader.ReadState == ReadState.Initial && reader.Read()))
+				{
+					return reader.ReadOuterXml();
+				} else
+				{
+					return String.Empty;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Returns the (unescaped) value if <paramref name="element"/> is a value-element, otherwise the inner-xml (see <see cref="InnerXml"/>) will be returned.
+		/// </summary>
+		/// <param name="element">The element.</param>
+		/// <returns>The inner-value or inner-xml.</returns>
+		public static String ValueOrInnerXml([CanBeNull] this XElement element)
+		{
+			if (element == null)
+			{
+				return null;
+			}
+
+			return element.HasElements ? element.InnerXml() : element.Value;
+		}
+
+		/// <summary>
+		/// Returns the (unescaped) value if <paramref name="element"/> is a value-element, otherwise the outer-xml (see <see cref="OuterXml"/>) will be returned.
+		/// </summary>
+		/// <param name="element">The element.</param>
+		/// <returns>The inner-value or outer-xml.</returns>
+		public static String ValueOrOuterXml([CanBeNull] this XElement element)
+		{
+			if (element == null)
+			{
+				return null;
+			}
+
+			return element.HasElements ? element.OuterXml() : element.Value;
 		}
 	}
 }
